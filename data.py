@@ -209,5 +209,90 @@ gadgets = [
             "display": "1.4\" AMOLED"
         },
         "highlights": ["2 Week Battery", "Continuous Heart Rate", "Sleep Tracking"]
+    },
+    {
+        "id": "m05",
+        "name": "PixelCraft 8a",
+        "category": "mobile",
+        "price": 499,
+        "budget": "medium",
+        "usage": ["photography", "general"],
+        "image": "https://images.unsplash.com/photo-1598327105666-5b89351cb31b?auto=format&fit=crop&q=80&w=600",
+        "specs": {
+            "processor": "Tensor G3",
+            "ram": "8GB",
+            "storage": "128GB",
+            "battery": "4500mAh",
+            "display": "6.1\" OLED"
+        },
+        "highlights": ["Amazing Camera", "Stock Android", "7 Years Updates"]
+    },
+    {
+        "id": "m06",
+        "name": "Vanguard Fold",
+        "category": "mobile",
+        "price": 1799,
+        "budget": "high",
+        "usage": ["productivity", "photography"],
+        "image": "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&q=80&w=600",
+        "specs": {
+            "processor": "Snapdragon 8 Gen 3",
+            "ram": "16GB",
+            "storage": "512GB",
+            "battery": "4800mAh",
+            "display": "8.0\" Foldable OLED"
+        },
+        "highlights": ["Massive Canvas", "Stylus Support", "Flexible Hinge"]
+    },
+    {
+        "id": "l05",
+        "name": "CodeMaster 14",
+        "category": "laptop",
+        "price": 1099,
+        "budget": "medium",
+        "usage": ["productivity", "gaming"],
+        "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600",
+        "specs": {
+            "processor": "AMD Ryzen 7",
+            "ram": "16GB",
+            "storage": "512GB SSD",
+            "battery": "70Wh",
+            "display": "14\" QHD IPS"
+        },
+        "highlights": ["Excellent Keyboard", "Good Thermals", "Portable Power"]
+    },
+    {
+        "id": "t03",
+        "name": "AirTab 11",
+        "category": "tablet",
+        "price": 599,
+        "budget": "medium",
+        "usage": ["general", "productivity"],
+        "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=600",
+        "specs": {
+            "processor": "M1 Chip",
+            "ram": "8GB",
+            "storage": "128GB",
+            "battery": "7500mAh",
+            "display": "11\" Retina"
+        },
+        "highlights": ["Super Light", "Great Speakers", "Pencil Support"]
+    },
+    {
+        "id": "w03",
+        "name": "RunMate Pro",
+        "category": "smartwatch",
+        "price": 299,
+        "budget": "medium",
+        "usage": ["general"],
+        "image": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=600",
+        "specs": {
+            "processor": "W5100",
+            "ram": "2GB",
+            "storage": "16GB",
+            "battery": "2 Days",
+            "display": "1.4\" Super AMOLED"
+        },
+        "highlights": ["Advanced Metrics", "Rotating Bezel", "Blood Pressure"]
     }
 ]
