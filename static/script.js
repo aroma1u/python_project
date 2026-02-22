@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize
     updateBookmarkCount();
 
-    // === Recommendation Engine via Python Backend ===
-    recommendForm.addEventListener('submit', async (e) => {
+    // === Recommendation Engine (Frontend-only version for preview) ===
+    recommendForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const category = categorySelect.value;
@@ -49,37 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Finding...";
         submitBtn.disabled = true;
 
-        try {
-            // Fetch from Python Flask API
-            const response = await fetch('/api/recommendations', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ category, budget, usage })
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to fetch recommendations");
-            }
-
-            const recommendations = await response.json();
-            renderResults(recommendations);
-
-        } catch (error) {
-            console.error(error);
-            resultsGrid.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 2rem;">
-                    <i class='bx bx-error' style="font-size: 3rem; margin-bottom: 1rem; color: #ef4444;"></i>
-                    <h3>Something went wrong</h3>
-                    <p>Could not connect to the recommendation server.</p>
+        // Fetch from Python API Backend
+        fetch('/api/recommendations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ category, budget, usage })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(recommendations => {
+                renderResults(recommendations);
+            })
+            .catch(error => {
+                console.error('Error fetching recommendations:', error);
+                resultsGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; color: var(--secondary); padding: 2rem;">
+                    <i class='bx bx-error-circle' style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3>Error Connecting to Server</h3>
+                    <p>Make sure the Python Flask server is running on port 5000.</p>
                 </div>
             `;
-            resultsSection.classList.remove('hidden');
-        } finally {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
+                resultsSection.classList.remove('hidden');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
     });
 
     clearResultsBtn.addEventListener('click', () => {

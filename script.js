@@ -49,38 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Finding...";
         submitBtn.disabled = true;
 
-        setTimeout(() => {
-            // Rule-based filtering logic using local gadgets array (from data.js)
-            let recommendations = gadgets.filter(g => {
-                // Must match category
-                if (g.category !== category) return false;
-
-                // Should match budget or be lower than the budget selected 
-                let budgetMatch = g.budget === budget;
-                if (budget === 'high' && (g.budget === 'medium' || g.budget === 'high')) budgetMatch = true;
-                if (budget === 'medium' && (g.budget === 'low' || g.budget === 'medium')) budgetMatch = true;
-
-                if (!budgetMatch) return false;
-
-                // Must match at least one usage need
-                if (!g.usage.includes(usage) && !g.usage.includes('general')) return false;
-
-                return true;
+        // Fetch from Python API Backend
+        fetch('/api/recommendations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ category, budget, usage })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(recommendations => {
+                renderResults(recommendations);
+            })
+            .catch(error => {
+                console.error('Error fetching recommendations:', error);
+                resultsGrid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; color: var(--secondary); padding: 2rem;">
+                    <i class='bx bx-error-circle' style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3>Error Connecting to Server</h3>
+                    <p>Make sure the Python Flask server is running on port 5000.</p>
+                </div>
+            `;
+                resultsSection.classList.remove('hidden');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             });
-
-            // Sort by exact usage matches first, then price
-            recommendations.sort((a, b) => {
-                let aExact = a.usage.includes(usage);
-                let bExact = b.usage.includes(usage);
-                if (aExact && !bExact) return -1;
-                if (!aExact && bExact) return 1;
-                return a.price - b.price;
-            });
-
-            renderResults(recommendations);
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 500); // simulate network delay for effect
     });
 
     clearResultsBtn.addEventListener('click', () => {
