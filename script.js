@@ -67,15 +67,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderResults(recommendations);
             })
             .catch(error => {
-                console.error('Error fetching recommendations:', error);
-                resultsGrid.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; color: var(--secondary); padding: 2rem;">
-                    <i class='bx bx-error-circle' style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                    <h3>Error Connecting to Server</h3>
-                    <p>Make sure the Python Flask server is running on port 5000.</p>
-                </div>
-            `;
-                resultsSection.classList.remove('hidden');
+                console.warn('Python server not detected. Falling back to local data matching...');
+
+                // Fallback: local filtering logic if Python server isn't available (e.g., GitHub Pages)
+                let recommendations = gadgets.filter(g => {
+                    if (g.category !== category) return false;
+
+                    let budgetMatch = g.budget === budget;
+                    if (budget === 'high' && (g.budget === 'medium' || g.budget === 'high')) budgetMatch = true;
+                    if (budget === 'medium' && (g.budget === 'low' || g.budget === 'medium')) budgetMatch = true;
+
+                    if (!budgetMatch) return false;
+                    if (!g.usage.includes(usage) && !g.usage.includes('general')) return false;
+
+                    return true;
+                });
+
+                recommendations.sort((a, b) => {
+                    let aExact = a.usage.includes(usage);
+                    let bExact = b.usage.includes(usage);
+                    if (aExact && !bExact) return -1;
+                    if (!aExact && bExact) return 1;
+                    return a.price - b.price;
+                });
+
+                renderResults(recommendations);
             })
             .finally(() => {
                 submitBtn.innerHTML = originalText;
