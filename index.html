@@ -137,6 +137,12 @@
 
     <!-- Scripts -->
     <script src="data.js"></script>
+    <script>
+        // Ensure gadgets variable is available globally whether from Flask or data.js
+        if (typeof gadgetsData !== 'undefined') {
+            window.gadgets = JSON.parse(gadgetsData);
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 

@@ -12,7 +12,7 @@
     <!-- Boxicons for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -136,12 +136,14 @@
     </div>
 
     <!-- Scripts -->
+    <script src="data.js"></script>
     <script>
-        // Store the gadgets globally by parsing them safely from Flask's tojson and safe filters
-        const gadgetsData = '{{ gadgets | tojson | safe }}';
-        const gadgets = JSON.parse(gadgetsData);
+        // Ensure gadgets variable is available globally whether from Flask or data.js
+        if (typeof gadgetsData !== 'undefined') {
+            window.gadgets = JSON.parse(gadgetsData);
+        }
     </script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
