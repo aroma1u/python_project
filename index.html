@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Gadget Advisor</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Notice to User about Python -->
+    <style>
+        .python-notice {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .python-notice strong {
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Elements -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <nav class="navbar glass">
+        <div class="logo">
+            <i class='bx bx-chip'></i>
+            <span>GadgetAdvisor</span>
+        </div>
+        <div class="nav-links">
+            <button id="toggle-bookmarks" class="btn-icon" title="Bookmarks">
+                <i class='bx bx-bookmark'></i>
+                <span id="bookmark-count" class="badge">0</span>
+            </button>
+            <button id="toggle-compare" class="btn-icon" title="Compare">
+                <i class='bx bx-git-compare'></i>
+                <span id="compare-count" class="badge">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Python Notice -->
+        <div class="python-notice">
+            <i class='bx bx-info-circle'></i> <strong>Python Not Detected</strong>: You are currently viewing the local
+            frontend-only version because Python is not installed or available in your command line path. To run the
+            full backend version, install Python and run <code>pip install flask</code> followed by
+            <code>python app.py</code>.
+        </div>
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1>Find Your Perfect <span class="highlight">Gadget</span></h1>
+            <p>Tell us what you need, and our smart engine will recommend the best devices tailored to your budget and
+                usage.</p>
+        </header>
+
+        <!-- Recommendation Wizard Form -->
+        <section class="wizard-section glass">
+            <form id="recommend-form">
+                <div class="form-group">
+                    <label for="category">I am looking for a...</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="mobile">Mobile Phone</option>
+                        <option value="laptop">Laptop</option>
+                        <option value="tablet">Tablet</option>
+                        <option value="smartwatch">Smartwatch</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">My Budget is...</label>
+                    <select id="budget" required>
+                        <option value="" disabled selected>Select Budget</option>
+                        <option value="low">Low (Value for Money)</option>
+                        <option value="medium">Medium (Mid-range Balance)</option>
+                        <option value="high">High (Premium Flagship)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="usage">I primarily use it for...</label>
+                    <select id="usage" required>
+                        <option value="" disabled selected>Select Primary Usage</option>
+                        <option value="general">Everyday Use / Browsing</option>
+                        <option value="productivity">Work / Productivity / Office</option>
+                        <option value="gaming">Gaming & Performance</option>
+                        <option value="photography">Photography & Creativity</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <i class='bx bx-search-alt-2'></i> Find Matches
+                </button>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="results-container hidden">
+            <div class="results-header">
+                <h2>Top Recommendations</h2>
+                <button id="clear-results" class="btn-text">Clear</button>
+            </div>
+            <div id="results-grid" class="grid">
+                <!-- Gadget Cards will be injected here via JS -->
+            </div>
+        </section>
+
+        <!-- Bookmarks Section -->
+        <section id="bookmarks-section" class="bookmarks-container hidden glass">
+            <div class="section-header">
+                <h2>Your Saved Gadgets</h2>
+                <button id="close-bookmarks" class="btn-icon"><i class='bx bx-x'></i></button>
+            </div>
+            <div id="bookmarks-grid" class="grid-small">
+                <!-- Bookmarked Cards -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Comparison Drawer -->
+    <div id="compare-drawer" class="compare-drawer hidden glass-dark">
+        <div class="drawer-header">
+            <h3>Comparison</h3>
+            <button id="close-compare" class="btn-icon"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="drawer-content">
+            <div id="compare-slots" class="compare-slots">
+                <!-- Selected for compare list -->
+            </div>
+            <button id="run-compare" class="btn-primary btn-full hidden">Compare Now</button>
+        </div>
+    </div>
+
+    <!-- Detailed Modal -->
+    <div id="specs-modal" class="modal-overlay hidden">
+        <div class="modal glass">
+            <button id="close-modal" class="btn-icon close-modal"><i class='bx bx-x'></i></button>
+            <div id="modal-content" class="modal-body">
+                <!-- Detailed specs -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
